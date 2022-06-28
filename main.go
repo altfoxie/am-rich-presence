@@ -71,7 +71,6 @@ func onReady() {
 			}
 			if result.state == StatePlaying {
 				activity.SmallImage = "play"
-				activity.SmallText = "Playing"
 
 				end := time.Now().
 					Add(time.Duration(result.duration * float64(time.Second))).
