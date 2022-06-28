@@ -1,0 +1,51 @@
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Go faster
+        uses: WillAbides/setup-go-faster@v1.7.0
+        with:
+          # yeah i know
+          go-version: '*'
+          
+      - name: Build macOS arm64
+        run: go build -o arm64-bin -ldflags "-s -w"
+        env:
+          CGO_ENABLED: '1'
+          GOOS: darwin
+          GOARCH: arm64
+
+      - name: Build macOS amd64
+        run: go build -o amd64-bin -ldflags "-s -w"
+        env:
+          CGO_ENABLED: '1'
+          GOOS: darwin
+          GOARCH: amd64
+      
+      - name: Prepare app template
+        run: mkdir "./AM Rich Presence.app/Contents/MacOS"
+
+      - name: Create universal binary
+        run: lipo -create arm64-bin amd64-bin -output "./AM Rich Presence.app/Contents/MacOS/am-rich-presence"
+        
+      - name: Install create-dmg
+        run: yarn global add create-dmg
+
+      - name: Package app
+        continue-on-error: true
+        run: create-dmg "./AM Rich Presence.app"
+
+      - name: Fix name
+        run: mv *.dmg "AM Rich Presence.dmg"
+
+      - name: Upload dmg
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file: 'AM Rich Presence.dmg'
