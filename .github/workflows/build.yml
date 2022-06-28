@@ -43,9 +43,9 @@ jobs:
         run: create-dmg "./AM Rich Presence.app"
 
       - name: Fix name
-        run: mv *.dmg "AM Rich Presence.dmg"
+        run: mv *.dmg "AMRichPresence.dmg"
 
       - name: Upload dmg
         uses: svenstaro/upload-release-action@2.3.0
         with:
-          file: 'AM Rich Presence.dmg'
+          file: 'AMRichPresence.dmg'
