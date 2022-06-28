@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	_ "embed"
@@ -68,6 +69,14 @@ func onReady() {
 				LargeImage: "music",
 				SmallImage: "pause",
 				Details:    song,
+				Buttons: []*client.Button{
+					{
+						Label: "Search on YouTube",
+						Url: "https://www.youtube.com/results?" + url.Values{
+							"search_query": {song},
+						}.Encode(),
+					},
+				},
 			}
 			if result.state == StatePlaying {
 				activity.SmallImage = "play"
