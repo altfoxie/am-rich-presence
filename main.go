@@ -6,13 +6,14 @@ import (
 
 	_ "embed"
 
+	"github.com/Code-Hex/go-generics-cache/policy/fifo"
 	"github.com/getlantern/systray"
 	"github.com/hugolgst/rich-go/client"
 )
 
 const AppID = "991335093878673448"
 
-//go:embed icons/tray.png
+//go:embed assets/tray.png
 var icon []byte
 
 func main() {
@@ -26,12 +27,14 @@ func onReady() {
 	state.Disable()
 
 	systray.AddSeparator()
+	restart := systray.AddMenuItem("Restart Discord RPC", "")
 	quit := systray.AddMenuItem("Quit", "")
 
-	// updater
 	go func() {
+		cache := fifo.NewCache[string, string](fifo.WithCapacity(100))
 		ticker := time.NewTicker(5 * time.Second)
-		for range ticker.C {
+		// hacky trick to force first tick
+		for ; true; <-ticker.C {
 			result, err := executeScript()
 			if err != nil {
 				state.SetTitle("Script error")
@@ -63,16 +66,13 @@ func onReady() {
 
 			activity := client.Activity{
 				LargeImage: "music",
-				LargeText:  "Apple Music logo lol",
 				SmallImage: "pause",
-				SmallText:  "Paused",
 				Details:    song,
 			}
 			if result.state == StatePlaying {
 				activity.SmallImage = "play"
 				activity.SmallText = "Playing"
 
-				// start := time.Now().Add(-time.Duration(info.Position * float64(time.Second)))
 				end := time.Now().
 					Add(time.Duration(result.duration * float64(time.Second))).
 					Add(-time.Duration(result.position * float64(time.Second)))
@@ -82,12 +82,24 @@ func onReady() {
 				}
 			}
 
+			artwork, _ := cache.Get(song)
+			if artwork == "" {
+				if artwork = artworkSearch(result.artist + " " + result.name); artwork != "" {
+					cache.Set(song, artwork)
+				}
+			}
+			if artwork != "" {
+				activity.LargeImage = artwork
+			}
+
 			client.SetActivity(activity)
 		}
 	}()
 
 	for {
 		select {
+		case <-restart.ClickedCh:
+			client.Logout()
 		case <-quit.ClickedCh:
 			systray.Quit()
 		}
