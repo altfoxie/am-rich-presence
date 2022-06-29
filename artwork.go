@@ -35,5 +35,5 @@ func artworkSearch(query string) string {
 	}
 
 	// https://github.com/paambaati/itunes-artwork/blob/master/api.js#L72
-	return strings.Replace(respData.Results[0].ArtworkURL100, "100x100bb.", "500x500bb.", 1)
+	return strings.Replace(respData.Results[0].ArtworkURL100, "100x100bb.", "1000x1000bb.", 1)
 }
