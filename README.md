@@ -1,4 +1,4 @@
 # AM Rich Presence
 Lightweight macOS agent that sends Apple Music player state to Discord.
 
-![Screenshot](https://user-images.githubusercontent.com/26873765/176241168-874756a5-1240-4775-abd1-a245909d2651.png)
+![Screenshot](https://user-images.githubusercontent.com/26873765/177017954-b8bb1e17-34e8-4747-844c-4b6006a91708.png)
