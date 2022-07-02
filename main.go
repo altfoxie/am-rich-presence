@@ -68,7 +68,8 @@ func onReady() {
 			activity := client.Activity{
 				LargeImage: "music",
 				SmallImage: "pause",
-				Details:    song,
+				Details:    result.artist,
+				State:      result.name,
 				Buttons: []*client.Button{
 					{
 						Label: "Search on YouTube",
