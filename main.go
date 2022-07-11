@@ -17,6 +17,8 @@ const AppID = "991335093878673448"
 //go:embed assets/tray.png
 var icon []byte
 
+var firstSecond = time.Unix(1, 0)
+
 func main() {
 	systray.Run(onReady, nil)
 }
@@ -73,6 +75,10 @@ func onReady() {
 			activity := drpc.Activity{
 				Details: result.name,
 				State:   result.artist,
+				Timestamps: &drpc.Timestamps{
+					Start: time.Now().Add(-time.Duration(result.position) * time.Second),
+					End:   firstSecond,
+				},
 				Assets: &drpc.Assets{
 					LargeImage: "music",
 					SmallImage: "pause",
@@ -89,9 +95,9 @@ func onReady() {
 			if result.state == StatePlaying {
 				activity.Assets.SmallImage = "play"
 				activity.Timestamps = &drpc.Timestamps{
+					Start: time.Now().Add(-time.Duration(result.position) * time.Second),
 					End: time.Now().
-						Add(time.Duration(result.duration * float64(time.Second))).
-						Add(-time.Duration(result.position * float64(time.Second))),
+						Add(time.Duration((result.duration - result.position) * float64(time.Second))),
 				}
 			}
 
