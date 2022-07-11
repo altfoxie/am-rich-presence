@@ -1,5 +1,7 @@
 github.com/Code-Hex/go-generics-cache v1.0.1 h1:c1xG0S161RzPxAS83DuO2Ro/ibHUJCzQ5nJvcBq1XLM=
 github.com/Code-Hex/go-generics-cache v1.0.1/go.mod h1:qxcC9kRVrct9rHeiYpFWSoW1vxyillCVzX13KZG8dl4=
+github.com/altfoxie/drpc v0.0.0-20220711164559-28cb5d546e13 h1:psHXovBWWXMBBoY4WT+SwkJ/F6IzuTY/MyWPPFht0Cg=
+github.com/altfoxie/drpc v0.0.0-20220711164559-28cb5d546e13/go.mod h1:sXvzuEYu6H62bZzA4yodGTDgsHq7Y62gmrNGwgs89L0=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/getlantern/context v0.0.0-20190109183933-c447772a6520 h1:NRUJuo3v3WGC/g5YiyF790gut6oQr5f3FBI88Wv0dx4=
@@ -18,8 +20,8 @@ github.com/getlantern/systray v1.2.1 h1:udsC2k98v2hN359VTFShuQW6GGprRprw6kD6539J
 github.com/getlantern/systray v1.2.1/go.mod h1:AecygODWIsBquJCJFop8MEQcJbWFfw/1yWbVabNgpCM=
 github.com/go-stack/stack v1.8.0 h1:5SgMzNM5HxrEjV0ww2lTmX6E2Izsfxas4+YHWRs3Lsk=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
-github.com/hugolgst/rich-go v0.0.0-20210925091458-d59fb695d9c0 h1:IkZfZBWufGFLvci1vXLiUu8PWVtG6wlz920CMtHobMo=
-github.com/hugolgst/rich-go v0.0.0-20210925091458-d59fb695d9c0/go.mod h1:nGaW7CGfNZnhtiFxMpc4OZdqIexGXjUlBnlmpZmjEKA=
+github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
+github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/oxtoacart/bpool v0.0.0-20190530202638-03653db5a59c h1:rp5dCmg/yLR3mgFuSOe4oEnDDmGLROTvMragMUXpTQw=
 github.com/oxtoacart/bpool v0.0.0-20190530202638-03653db5a59c/go.mod h1:X07ZCGwUbLaax7L0S3Tw4hpejzu63ZrrQiUe6W0hcy0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

@@ -8,8 +8,8 @@ import (
 	_ "embed"
 
 	"github.com/Code-Hex/go-generics-cache/policy/fifo"
+	"github.com/altfoxie/drpc"
 	"github.com/getlantern/systray"
-	"github.com/hugolgst/rich-go/client"
 )
 
 const AppID = "991335093878673448"
@@ -22,6 +22,11 @@ func main() {
 }
 
 func onReady() {
+	client, err := drpc.New(AppID)
+	if err != nil {
+		panic(err)
+	}
+
 	systray.SetIcon(icon)
 
 	state := systray.AddMenuItem("No state", "")
@@ -39,23 +44,23 @@ func onReady() {
 			result, err := executeScript()
 			if err != nil {
 				state.SetTitle("Script error")
-				client.Logout()
+				client.Close()
 				continue
 			}
 
 			if result.state == "" {
 				state.SetTitle("Apple Music is not running")
-				client.Logout()
+				client.Close()
 				continue
 			}
 
 			if result.name == "" || result.artist == "" {
 				state.SetTitle("No song")
-				client.Logout()
+				client.Close()
 				continue
 			}
 
-			if err = client.Login(AppID); err != nil {
+			if err = client.Connect(); err != nil {
 				state.SetTitle("Discord RPC error")
 				continue
 			}
@@ -65,29 +70,28 @@ func onReady() {
 				song, int(result.position/60), int(result.position)%60,
 				int(result.duration/60), int(result.duration)%60))
 
-			activity := client.Activity{
-				LargeImage: "music",
-				SmallImage: "pause",
-				Details:    result.artist,
-				State:      result.name,
-				Buttons: []*client.Button{
+			activity := drpc.Activity{
+				Details: result.name,
+				State:   result.artist,
+				Assets: &drpc.Assets{
+					LargeImage: "music",
+					SmallImage: "pause",
+				},
+				Buttons: []drpc.Button{
 					{
 						Label: "Search on YouTube",
-						Url: "https://www.youtube.com/results?" + url.Values{
+						URL: "https://www.youtube.com/results?" + url.Values{
 							"search_query": {song},
 						}.Encode(),
 					},
 				},
 			}
 			if result.state == StatePlaying {
-				activity.SmallImage = "play"
-
-				end := time.Now().
-					Add(time.Duration(result.duration * float64(time.Second))).
-					Add(-time.Duration(result.position * float64(time.Second)))
-				activity.Timestamps = &client.Timestamps{
-					Start: &time.Time{},
-					End:   &end,
+				activity.Assets.SmallImage = "play"
+				activity.Timestamps = &drpc.Timestamps{
+					End: time.Now().
+						Add(time.Duration(result.duration * float64(time.Second))).
+						Add(-time.Duration(result.position * float64(time.Second))),
 				}
 			}
 
@@ -98,7 +102,7 @@ func onReady() {
 				}
 			}
 			if artwork != "" {
-				activity.LargeImage = artwork
+				activity.Assets.LargeImage = artwork
 			}
 
 			client.SetActivity(activity)
@@ -108,7 +112,7 @@ func onReady() {
 	for {
 		select {
 		case <-restart.ClickedCh:
-			client.Logout()
+			client.Close()
 		case <-quit.ClickedCh:
 			systray.Quit()
 		}
