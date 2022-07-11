@@ -13,7 +13,7 @@
   <key>CFBundleIconFile</key>
   <string>icon.icns</string>
   <key>CFBundleShortVersionString</key>
-  <string>0.1</string>
+  <string>0.2</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundlePackageType</key>
@@ -21,7 +21,7 @@
   <key>IFMajorVersion</key>
   <integer>0</integer>
   <key>IFMinorVersion</key>
-  <integer>1</integer>
+  <integer>2</integer>
   <key>NSHighResolutionCapable</key><true/>
   <key>NSSupportsAutomaticGraphicsSwitching</key><true/>
   <key>LSUIElement</key>
