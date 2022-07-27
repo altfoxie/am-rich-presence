@@ -103,13 +103,15 @@ func onReady() {
 
 			artwork, _ := cache.Get(song)
 			if artwork == "" {
-				if artwork = artworkSearch(result.artist + " " + result.name); artwork != "" {
-					cache.Set(song, artwork)
-				}
+				artwork = artworkSearchITunes(result.artist + " " + result.name)
+			}
+			if artwork == "" {
+				artwork = artworkSearchMusixmatch(result.artist + " " + result.name)
 			}
 			if artwork != "" {
-				activity.Assets.LargeImage = artwork
+				cache.Set(song, artwork)
 			}
+			activity.Assets.LargeImage = artwork
 
 			client.SetActivity(activity)
 		}
