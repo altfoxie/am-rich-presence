@@ -110,8 +110,8 @@ func onReady() {
 			}
 			if artwork != "" {
 				cache.Set(song, artwork)
+				activity.Assets.LargeImage = artwork
 			}
-			activity.Assets.LargeImage = artwork
 
 			client.SetActivity(activity)
 		}
