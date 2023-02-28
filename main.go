@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/url"
+	"strings"
 	"time"
 
 	_ "embed"
@@ -56,7 +57,7 @@ func onReady() {
 				continue
 			}
 
-			if result.name == "" || result.artist == "" {
+			if result.name == "" && result.artist == "" {
 				state.SetTitle("No song")
 				client.Close()
 				continue
@@ -68,6 +69,13 @@ func onReady() {
 			}
 
 			song := result.artist + " – " + result.name
+			switch {
+			case result.artist == "":
+				song = result.name
+			case result.name == "":
+				song = result.artist
+			}
+
 			state.SetTitle(fmt.Sprintf("%s (%d:%02d / %d:%02d)",
 				song, int(result.position/60), int(result.position)%60,
 				int(result.duration/60), int(result.duration)%60))
@@ -102,11 +110,12 @@ func onReady() {
 			}
 
 			artwork, _ := cache.Get(song)
+			query := strings.TrimSpace(result.artist + " " + result.name)
 			if artwork == "" {
-				artwork = artworkSearchITunes(result.artist + " " + result.name)
+				artwork = artworkSearchITunes(query)
 			}
 			if artwork == "" {
-				artwork = artworkSearchMusixmatch(result.artist + " " + result.name)
+				artwork = artworkSearchMusixmatch(query)
 			}
 			if artwork != "" {
 				cache.Set(song, artwork)
